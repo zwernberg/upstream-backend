@@ -8,6 +8,9 @@ from rest_framework.authtoken import views as authViews
 from django.views.generic.base import RedirectView
 from django.views.generic import TemplateView
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 router = DefaultRouter(trailing_slash=False)
 router.register(r'catches', views.CatchViewSet)
 
@@ -15,5 +18,5 @@ urlpatterns = patterns('',
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', 
 	namespace='rest_framework')),
-	url(r'^api-token-auth', authViews.obtain_auth_token)
-)
+	url(r'^api-token-auth', authViews.obtain_auth_token) 
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
