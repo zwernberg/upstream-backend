@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 #### CORS STUFFF
 CORS_ORIGIN_ALLOW_ALL = True
 
-REST FRAMEWORK STUFF
+#REST FRAMEWORK STUFF
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
