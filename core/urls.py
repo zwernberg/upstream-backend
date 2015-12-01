@@ -1,4 +1,4 @@
-"""squatbot URL Configuration"""
+"""upstream URL Configuration"""
 
 from api import views
 from django.conf.urls import patterns, url, include
@@ -13,8 +13,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 router = DefaultRouter(trailing_slash=False)
-router.register(r'catches', views.CatchViewSet,base_name='catch')
-#router.register(r'feed',views.FeedViewSet,base_name='feed')
+router.register(r'catches', views.CatchViewSet)
+router.register(r'feed',views.FeedViewSet,base_name='feed')
 
 urlpatterns = patterns('',
     url(r'^api/', include(router.urls)),
