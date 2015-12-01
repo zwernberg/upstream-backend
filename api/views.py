@@ -12,7 +12,7 @@ from django.shortcuts import render_to_response, render, get_object_or_404,\
     redirect
 
 from api.models import Catch
-from api.serializers import CatchSerializer
+from api.serializers import CatchSerializer, UserSerializer
 
 
 class CatchViewSet(viewsets.ModelViewSet):
@@ -41,3 +41,13 @@ class FeedViewSet(viewsets.ModelViewSet):
 
 	def perform_create(self, serializer):
 		serializer.save(owner=self.request.user, fishPhoto=self.request.data.get('fishPhoto'))
+		
+		
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    This endpoint presents the users in the system.
+    As you can see, the collection of snippet instances owned by a user are
+    serialized using a hyperlinked representation.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer

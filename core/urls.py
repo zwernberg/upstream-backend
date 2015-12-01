@@ -15,6 +15,8 @@ from django.conf.urls.static import static
 router = DefaultRouter(trailing_slash=False)
 router.register(r'catches', views.CatchViewSet)
 router.register(r'feed',views.FeedViewSet,base_name='feed')
+router.register(r'users', views.UserViewSet)
+
 
 urlpatterns = patterns('',
     url(r'^api/', include(router.urls)),
