@@ -25,7 +25,7 @@ env = environ.Env()
 SECRET_KEY = 'jpy-1aj!e#hxs#(=$6vc-h5%awyiq5%ted54h$gqw-%-#5%f=*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DJANGO_DEBUG", True)
 
 ALLOWED_HOSTS = ['*']
 
