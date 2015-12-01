@@ -12,8 +12,10 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import environ
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+env = environ.Env()
 
 
 # Quick-start development settings - unsuitable for production
@@ -40,6 +42,7 @@ INSTALLED_APPS = (
     'rest_framework',
 	'rest_framework.authtoken',
     'corsheaders',
+	'stream_django',
     'api'
 )
 
@@ -104,11 +107,11 @@ REST_FRAMEWORK = {
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
+    'default': env.db("DATABASE_URL"),
 }
+DATABASES['default']['ATOMIC_REQUESTS'] = True
+
 
 
 # Internationalization
@@ -131,3 +134,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+#Getstream
+
+STREAM_API_KEY = env("STREAM_KEY")
+STREAM_API_SECRET = env("STREAM_SECRET")
