@@ -9,9 +9,15 @@ class CatchSerializer(serializers.HyperlinkedModelSerializer):
 		# fields = ('url', 'id', 'title', 'owner', 'fishPhoto')	
 		
 		
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    catches = serializers.HyperlinkedRelatedField(queryset=Catch.objects.all(), view_name='catch-detail', many=True)
+class CatchModelSerializer(serializers.ModelSerializer):
+	owner = serializers.ReadOnlyField(source='owner.username')	
+	class Meta:
+		model = Catch
+		fields = ('id','title','owner', 'fishPhoto','created_at','modified_at')		
+		
+class UserSerializer(serializers.ModelSerializer):
+	catches = CatchModelSerializer(many=True)
 
-    class Meta:
-        model = User
-        fields = ('url', 'username', 'catches', 'friends', 'followers')
+	class Meta:
+		model = User
+		fields = ('url', 'username', 'catches')
