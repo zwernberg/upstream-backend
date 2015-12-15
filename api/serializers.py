@@ -14,7 +14,7 @@ class CatchSerializer(serializers.HyperlinkedModelSerializer):
 
 	class Meta:
 		model = Catch
-		fields = ('url', 'id', 'title', 'owner', 'fishPhoto')			
+		#fields = ('url', 'id', 'title', 'owner', 'fishPhoto')			
 		
 class UserSerializer(serializers.ModelSerializer):
 	catches = CatchSerializer(many=True)
