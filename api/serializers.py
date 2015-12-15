@@ -10,7 +10,8 @@ class UserModelSerializer(serializers.ModelSerializer):
 
 
 class CatchSerializer(serializers.HyperlinkedModelSerializer):
-	owner = UserModelSerializer()
+	owner = UserModelSerializer(required=False)
+
 	class Meta:
 		model = Catch
 		fields = ('url', 'id', 'title', 'owner', 'fishPhoto')			
