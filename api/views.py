@@ -46,8 +46,6 @@ class FeedViewSet(viewsets.ModelViewSet):
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     """
     This endpoint presents the users in the system.
-    As you can see, the collection of snippet instances owned by a user are
-    serialized using a hyperlinked representation.
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer

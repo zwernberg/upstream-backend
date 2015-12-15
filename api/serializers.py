@@ -18,8 +18,17 @@ class CatchSerializer(serializers.HyperlinkedModelSerializer):
 		
 class UserSerializer(serializers.ModelSerializer):
 	catches = CatchSerializer(many=True)
-	#followers = UserModelSerializer(User.followers,many=True)
+	#followers = UserModelSerializer(many=True)
+	followers = serializers.SerializerMethodField()
+	isFollowing = serializers.SerializerMethodField()
 	
 	class Meta:
 		model = User
-		fields = ('url', 'id' ,'username', 'catches', 'followers')
+		depth = 2
+		fields = ('url', 'id' ,'username', 'catches', 'friends')
+		
+	def followers(self,obj):
+		return obj.followers_set.all()
+		
+	def isFollowing(self,obj):
+		return self.request.user in obj.followers.followers
