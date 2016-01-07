@@ -24,7 +24,7 @@ urlpatterns = patterns('',
 	namespace='rest_framework')),
 	url(r'^api-token-auth', authViews.obtain_auth_token),
 	url(r'^rest-auth/', include('rest_auth.urls')),
-    (r'^rest-auth/registration/', include('rest_auth.registration.urls')),
+    (r'^rest-auth/registration', include('rest_auth.registration.urls')),
 	url(r'^admin/', include(admin.site.urls)),
 
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
