@@ -1,18 +1,14 @@
 from django.contrib.auth.models import User
-from rest_framework import permissions, renderers, viewsets
+from rest_framework import permissions, renderers, viewsets, status
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 from rest_framework.parsers import FormParser, MultiPartParser
-
-
 from stream_django.enrich import Enrich
 from stream_django.feed_manager import feed_manager
-
 from django.shortcuts import render_to_response, render, get_object_or_404,\
     redirect
-
-from api.models import Catch
-from api.serializers import CatchSerializer, UserSerializer
+from api.models import Catch, Like
+from api.serializers import CatchSerializer, UserSerializer, LikeSerializer
 
 
 class CatchViewSet(viewsets.ModelViewSet):
@@ -23,7 +19,19 @@ class CatchViewSet(viewsets.ModelViewSet):
 	
 	def perform_create(self, serializer):
 		serializer.save(owner=self.request.user, fishPhoto=self.request.data.get('fishPhoto'))
+	
+	@detail_route(methods=['post'])
+	def like(self,request,pk):
+		data = {'user':self.request.user.id, 'catch': pk}
+		serializer = LikeSerializer(data=data)
+		if serializer.is_valid():
+			serializer.save()
+			catch = Catch.objects.get(id=pk)
+			catch.likes += 1
+			catch.save()
+			return Response(status=status.HTTP_204_NO_CONTENT)
 
+		
 
 class FeedViewSet(viewsets.ModelViewSet):
 	serializer_class = CatchSerializer

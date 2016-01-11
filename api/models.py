@@ -14,6 +14,7 @@ class Catch(models.Model, activity.Activity):
 	owner = models.ForeignKey('auth.User', related_name='catches')
 	created_at = models.DateTimeField(auto_now_add=True)
 	modified_at = models.DateTimeField(auto_now=True)
+	likes = models.IntegerField(default=0)
 
 	def __unicode_(self):
 		return self.title
@@ -34,11 +35,13 @@ class Follow(models.Model):
 	user = models.ForeignKey('auth.User', related_name='friends')
 	target = models.ForeignKey('auth.User', related_name='followers')
 	created_at = models.DateTimeField(auto_now_add=True)
-
 	class Meta:
 	    unique_together = ('user', 'target')
 
-	
+class Like(models.Model):
+	user = 	models.ForeignKey('auth.User')
+	catch = models.ForeignKey('Catch')
+	created_at = models.DateTimeField(auto_now_add=True)	
 		
 	
 # This code is triggered whenever a new user has been created and saved to the database
