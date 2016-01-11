@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Catch, Follow
+from .models import Catch, Follow, Like
 from django.contrib.auth.models import User
 
 class UserModelSerializer(serializers.ModelSerializer):
@@ -32,3 +32,10 @@ class UserSerializer(serializers.ModelSerializer):
 		
 	def isFollowing(self,obj):
 		return self.request.user in obj.followers.followers
+		
+		
+class LikeSerializer(serializers.ModelSerializer):
+	
+	class Meta:
+		model = Like
+		fields = ('user','catch')
