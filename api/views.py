@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import permissions, renderers, viewsets, status
+from rest_framework.views import APIView
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 from rest_framework.parsers import FormParser, MultiPartParser
@@ -8,7 +9,7 @@ from stream_django.feed_manager import feed_manager
 from django.shortcuts import render_to_response, render, get_object_or_404,\
     redirect
 from api.models import Catch, Like
-from api.serializers import CatchSerializer, UserSerializer, LikeSerializer
+from api.serializers import CatchSerializer, UserSerializer, LikeSerializer, UserModelSerializer
 
 
 class CatchViewSet(viewsets.ModelViewSet):
@@ -57,3 +58,9 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+
+class CurrentUserView(APIView):
+    def get(self, request):
+        serializer = UserModelSerializer(request.user)
+        return Response(serializer.data)
