@@ -13,7 +13,8 @@ from api.serializers import CatchSerializer, UserSerializer, LikeSerializer, Use
 
 
 class CatchViewSet(viewsets.ModelViewSet):
-	queryset = Catch.objects.all()
+	##TODO: USE PAGINATE
+	queryset = Catch.objects.all()[:10]
 	serializer_class = CatchSerializer
 	parser_classes = (MultiPartParser, FormParser,)
 	#permission_class = (permissions.IsAuthenticatedOrReadOnly)	
