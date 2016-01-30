@@ -16,6 +16,7 @@ class Catch(models.Model, activity.Activity):
 	modified_at = models.DateTimeField(auto_now=True)
 	likes = models.IntegerField(default=0)
 
+
 	def __unicode_(self):
 		return self.title
 		
