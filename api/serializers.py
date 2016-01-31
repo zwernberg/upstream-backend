@@ -40,3 +40,10 @@ class LikeSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Like
 		fields = ('user','catch')
+		
+		
+class FollowSerializer(serializers.ModelSerializer):
+	
+	class Meta:
+		model = Follow
+		fields=('user','target')
