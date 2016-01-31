@@ -14,25 +14,36 @@ class CatchSerializer(serializers.HyperlinkedModelSerializer):
 
 	class Meta:
 		model = Catch
-		fields = ('url', 'id', 'title', 'created_at', 'modified_at', 'likes', 'owner', 'fishPhoto')			
+		fields = ('url', 'id', 'title', 'created_at', 'modified_at', 'likes', 'owner', 'fishPhoto')
+		
+
 		
 class UserSerializer(serializers.ModelSerializer):
 	catches = CatchSerializer(many=True)
 	#followers = UserModelSerializer(many=True)
-	followers =	serializers.StringRelatedField(many=True)
-
+	#followers =	serializers.StringRelatedField(many=True)
+	following = serializers.SerializerMethodField('is_following')
 	
 	class Meta:
 		model = User
 		depth = 2
-		fields = ('url', 'id' ,'username', 'catches', 'friends','followers')
+		fields = ('url', 'id' ,'username', 'catches', 'following')
 		
 	def followers(self,obj):
 		return obj.followers_set.all()
-		
+	
+	def is_following(self, obj):
+		return (obj.followers.filter(user=self.context['request'].user).exists())		
 		
 class LikeSerializer(serializers.ModelSerializer):
 	
 	class Meta:
 		model = Like
 		fields = ('user','catch')
+		
+		
+class FollowSerializer(serializers.ModelSerializer):
+	
+	class Meta:
+		model = Follow
+		fields=('user','target')
