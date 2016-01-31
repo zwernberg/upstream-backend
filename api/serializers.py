@@ -27,7 +27,7 @@ class UserSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = User
 		depth = 2
-		fields = ('url', 'id' ,'username', 'catches', 'following')
+		fields = ('url', 'id' ,'username', 'following', 'catches')
 		
 	def followers(self,obj):
 		return obj.followers_set.all()
