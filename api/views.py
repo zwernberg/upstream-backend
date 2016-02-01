@@ -14,7 +14,7 @@ from api.serializers import CatchSerializer, UserSerializer, LikeSerializer, Use
 
 class CatchViewSet(viewsets.ModelViewSet):
 	##TODO: USE PAGINATE
-	queryset = Catch.objects.order_by('-created_at')[:10]
+	queryset = Catch.objects.order_by('-created_at')
 	serializer_class = CatchSerializer
 	parser_classes = (MultiPartParser, FormParser,)
 	#permission_class = (permissions.IsAuthenticatedOrReadOnly)	
