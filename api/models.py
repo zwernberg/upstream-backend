@@ -44,7 +44,7 @@ class Follow(models.Model):
 
 class Like(models.Model):
 	user = 	models.ForeignKey('auth.User')
-	catch = models.ForeignKey('Catch')
+	catch = models.ForeignKey('Catch', related_name='liked_users')
 	created_at = models.DateTimeField(auto_now_add=True)	
 		
 	

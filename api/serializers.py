@@ -11,17 +11,17 @@ class UserModelSerializer(serializers.ModelSerializer):
 
 class CatchSerializer(serializers.HyperlinkedModelSerializer):
 	owner = UserModelSerializer(required=False)
+	liked = serializers.SerializerMethodField('is_liked')
 
 	class Meta:
 		model = Catch
-		fields = ('url', 'id', 'title', 'created_at', 'modified_at', 'likes', 'owner', 'fishPhoto')
+		fields = ('url', 'id', 'title', 'created_at', 'modified_at','liked', 'likes', 'owner', 'fishPhoto')
 		
-
+	def is_liked(self, obj):
+		return (obj.liked_users.filter(user=self.context['request'].user).exists())
 		
 class UserSerializer(serializers.ModelSerializer):
 	catches = CatchSerializer(many=True)
-	#followers = UserModelSerializer(many=True)
-	#followers =	serializers.StringRelatedField(many=True)
 	following = serializers.SerializerMethodField('is_following')
 	
 	class Meta:
