@@ -10,6 +10,7 @@ from django.shortcuts import render_to_response, render, get_object_or_404,\
     redirect
 from api.models import Catch, Like, Follow
 from api.serializers import CatchSerializer, UserSerializer, LikeSerializer, UserModelSerializer, FollowSerializer
+from api.permissions import IsOwnerOrReadOnly
 
 
 class CatchViewSet(viewsets.ModelViewSet):
@@ -17,7 +18,7 @@ class CatchViewSet(viewsets.ModelViewSet):
 	queryset = Catch.objects.order_by('-created_at')
 	serializer_class = CatchSerializer
 	parser_classes = (MultiPartParser, FormParser,)
-	#permission_class = (permissions.IsAuthenticatedOrReadOnly)	
+	permission_classes = (IsOwnerOrReadOnly,)	
 	
 	def perform_create(self, serializer):
 		serializer.save(owner=self.request.user, fishPhoto=self.request.data.get('fishPhoto'))
