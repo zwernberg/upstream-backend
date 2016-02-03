@@ -33,7 +33,21 @@ class CatchViewSet(viewsets.ModelViewSet):
 			catch.likes += 1
 			catch.save()
 			return Response(status=status.HTTP_204_NO_CONTENT)
-
+		
+			
+	@detail_route(methods=['post'])
+	def unlike(self,request,pk):
+		data = {'user':self.request.user.id, 'catch': pk}
+		serializer = LikeSerializer(data=data)
+		if serializer.is_valid():
+			catch = Catch.objects.get(id=pk)
+			if (catch.liked_users.filter(user=self.request.user).exists()):
+				obj = Like.objects.get(user=self.request.user,catch=catch)
+				obj.delete()
+				catch.likes -= 1
+				catch.save()
+				return Response(status=status.HTTP_204_NO_CONTENT)
+		return Response(status=status.HTTP_400_BAD_REQUEST)
 		
 
 class FeedViewSet(viewsets.ModelViewSet):
