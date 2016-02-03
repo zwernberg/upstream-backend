@@ -46,6 +46,9 @@ class Like(models.Model):
 	user = 	models.ForeignKey('auth.User')
 	catch = models.ForeignKey('Catch', related_name='liked_users')
 	created_at = models.DateTimeField(auto_now_add=True)	
+	
+	class Meta:
+		unique_together = ('user', 'catch')
 		
 	
 # This code is triggered whenever a new user has been created and saved to the database
