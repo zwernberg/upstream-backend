@@ -15,7 +15,7 @@ from api.permissions import IsOwnerOrReadOnly
 
 class CatchViewSet(viewsets.ModelViewSet):
 	##TODO: USE PAGINATE
-	queryset = Catch.objects.order_by('-created_at')
+	queryset = Catch.objects.order_by('-created_at')[:10]
 	serializer_class = CatchSerializer
 	parser_classes = (MultiPartParser, FormParser,)
 	permission_classes = (IsOwnerOrReadOnly,)	
