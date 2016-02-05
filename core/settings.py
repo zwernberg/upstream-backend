@@ -124,8 +124,8 @@ DATABASES = {
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+ACCOUNT_EMAIL_VERIFICATION = "none"
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
