@@ -20,7 +20,7 @@ router.register(r'users', views.UserViewSet)
 
 urlpatterns = patterns('',
     url(r'^api/', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', 
+    url(r'^api/api-auth/', include('rest_framework.urls', 
 	namespace='rest_framework')),
 	url(r'^api/rest-auth/', include('rest_auth.urls')),
     (r'^api/rest-auth/registration/', include('rest_auth.registration.urls')),
@@ -28,6 +28,6 @@ urlpatterns = patterns('',
 	url(r'^api-token-auth', authViews.obtain_auth_token),
 	url(r'^rest-auth/', include('rest_auth.urls')),
     (r'^rest-auth/registration', include('rest_auth.registration.urls')),
-	url(r'^admin/', include(admin.site.urls)),
+	url(r'^api/admin/', include(admin.site.urls)),
 
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
