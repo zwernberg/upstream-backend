@@ -25,9 +25,6 @@ urlpatterns = patterns('',
 	url(r'^api/rest-auth/', include('rest_auth.urls')),
     (r'^api/rest-auth/registration/', include('rest_auth.registration.urls')),
     url(r'^api/currentuser', views.CurrentUserView.as_view()),
-	url(r'^api-token-auth', authViews.obtain_auth_token),
-	url(r'^rest-auth/', include('rest_auth.urls')),
-    (r'^rest-auth/registration', include('rest_auth.registration.urls')),
 	url(r'^api/admin/', include(admin.site.urls)),
 
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
