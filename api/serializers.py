@@ -13,7 +13,7 @@ class UserModelSerializer(serializers.ModelSerializer):
 class CatchSerializer(serializers.HyperlinkedModelSerializer):
 	owner = UserModelSerializer(required=False)
 	liked = serializers.SerializerMethodField('is_liked')
-	comments = CommentSerializer(many=True)
+	comments = CommentSerializer(many=True, read_only=True)
 	class Meta:
 		model = Catch
 		fields = ('url', 'id', 'title', 'created_at', 'modified_at','liked', 'likes', 'comments','owner', 'fishPhoto')
