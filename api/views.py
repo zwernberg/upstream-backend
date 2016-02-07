@@ -3,7 +3,7 @@ from rest_framework import permissions, renderers, viewsets, status, generics
 from rest_framework.views import APIView
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
-from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.parsers import FormParser, MultiPartParser, JSONParser
 from stream_django.enrich import Enrich
 from stream_django.feed_manager import feed_manager
 from django.shortcuts import render_to_response, render, get_object_or_404,\
@@ -11,17 +11,40 @@ from django.shortcuts import render_to_response, render, get_object_or_404,\
 from api.models import Catch, Like, Follow
 from api.serializers import CatchSerializer, UserSerializer, LikeSerializer, UserModelSerializer, FollowSerializer
 from api.permissions import IsOwnerOrReadOnly
+from rest_framework.request import Request
+
+
+#upstream.comments
+from comments.serializers import CommentSerializer
+from comments.models import Comment
 
 
 class CatchViewSet(viewsets.ModelViewSet):
 	##TODO: USE PAGINATE
 	queryset = Catch.objects.order_by('-created_at')
 	serializer_class = CatchSerializer
-	parser_classes = (MultiPartParser, FormParser,)
+	parser_classes = (MultiPartParser, FormParser,JSONParser,)
 	permission_classes = (IsOwnerOrReadOnly,)	
 	
 	def perform_create(self, serializer):
 		serializer.save(owner=self.request.user, fishPhoto=self.request.data.get('fishPhoto'))
+
+
+	@detail_route(methods=['get','post'])
+	def comments(self,request,pk):
+		if request.method == 'GET':
+			comments = self.get_object().comments
+
+			serializer = CommentSerializer(comments, context={'request': request}, many=True)
+			return Response(serializer.data)
+		
+		else:
+			serializer = CommentSerializer(data=request.data)
+			if serializer.is_valid():				
+				serializer.save(owner=self.request.user, target=Catch.objects.get(id=pk))
+				return Response(status=status.HTTP_204_NO_CONTENT)				
+					
+
 	
 	@detail_route(methods=['post'])
 	def like(self,request,pk):

@@ -47,11 +47,15 @@ INSTALLED_APPS = (
     'allauth.account',
 	'allauth.socialaccount',
     'rest_auth.registration',
-	'django_comments',
     'corsheaders',
 	'stream_django',
-    'api'
+    'api',
+	'comments'
 )
+
+##use toolbar if debug
+if DEBUG:
+	INSTALLED_APPS += ('debug_toolbar',)
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -102,6 +106,9 @@ CORS_ALLOW_HEADERS = (
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
+    ),
+	'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         #'rest_framework.authentication.BasicAuthentication',

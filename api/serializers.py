@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Catch, Follow, Like
 from django.contrib.auth.models import User
+from comments.serializers import CommentSerializer
 
 class UserModelSerializer(serializers.ModelSerializer):
 	
@@ -12,10 +13,10 @@ class UserModelSerializer(serializers.ModelSerializer):
 class CatchSerializer(serializers.HyperlinkedModelSerializer):
 	owner = UserModelSerializer(required=False)
 	liked = serializers.SerializerMethodField('is_liked')
-
+	comments = CommentSerializer(many=True)
 	class Meta:
 		model = Catch
-		fields = ('url', 'id', 'title', 'created_at', 'modified_at','liked', 'likes', 'owner', 'fishPhoto')
+		fields = ('url', 'id', 'title', 'created_at', 'modified_at','liked', 'likes', 'comments','owner', 'fishPhoto')
 		
 	def is_liked(self, obj):
 		return (obj.liked_users.filter(user=self.context['request'].user).exists())
