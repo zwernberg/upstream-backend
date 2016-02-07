@@ -17,6 +17,7 @@ class CatchSerializer(serializers.HyperlinkedModelSerializer):
 	class Meta:
 		model = Catch
 		fields = ('url', 'id', 'title', 'created_at', 'modified_at','liked', 'likes', 'comments','owner', 'fishPhoto')
+		read_only_fields = ('comments',)
 		
 	def is_liked(self, obj):
 		return (obj.liked_users.filter(user=self.context['request'].user).exists())
