@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.parsers import FormParser, MultiPartParser, JSONParser
 from catches.models import Catch,Like
 from catches.serializers import CatchSerializer, LikeSerializer
+from comments.serializers import CommentSerializer
 from api.permissions import IsOwnerOrReadOnly
 from stream_django.feed_manager import feed_manager
 # Create your views here.
