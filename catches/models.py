@@ -6,6 +6,7 @@ from stream_django.feed_manager import feed_manager
 # Create your models here.
 class Catch(models.Model, activity.Activity):
 	title = models.CharField(max_length=75)
+	location = models.CharField(max_length=75)
 	fishPhoto = models.ImageField(upload_to='photos/%Y/%m/%d')
 	owner = models.ForeignKey('auth.User', related_name='catches')
 	created_at = models.DateTimeField(auto_now_add=True)
