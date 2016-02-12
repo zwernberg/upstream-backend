@@ -8,8 +8,8 @@ from stream_django.enrich import Enrich
 from stream_django.feed_manager import feed_manager
 from django.shortcuts import render_to_response, render, get_object_or_404,\
     redirect
-from api.models import Catch, Like, Follow
-from api.serializers import CatchSerializer, UserSerializer, LikeSerializer, UserModelSerializer, FollowSerializer
+from api.models import Follow
+from api.serializers import UserSerializer, FollowSerializer
 from api.permissions import IsOwnerOrReadOnly
 from rest_framework.request import Request
 
@@ -19,73 +19,7 @@ from comments.serializers import CommentSerializer
 from comments.models import Comment
 
 
-class CatchViewSet(viewsets.ModelViewSet):
-	##TODO: USE PAGINATE
-	queryset = Catch.objects.order_by('-created_at')
-	serializer_class = CatchSerializer
-	parser_classes = (MultiPartParser, FormParser,JSONParser,)
-	permission_classes = (IsOwnerOrReadOnly,)	
-	
-	def perform_create(self, serializer):
-		serializer.save(owner=self.request.user, fishPhoto=self.request.data.get('fishPhoto'))
 
-
-	@detail_route(methods=['get','post'])
-	def comments(self,request,pk):
-		if request.method == 'GET':
-			comments = self.get_object().comments
-
-			serializer = CommentSerializer(comments, context={'request': request}, many=True)
-			return Response(serializer.data)
-		
-		else:
-			serializer = CommentSerializer(data=request.data)
-			if serializer.is_valid():				
-				serializer.save(owner=self.request.user, target=Catch.objects.get(id=pk))
-				return Response(status=status.HTTP_204_NO_CONTENT)				
-					
-
-	
-	@detail_route(methods=['post'])
-	def like(self,request,pk):
-		data = {'user':self.request.user.id, 'catch': pk}
-		serializer = LikeSerializer(data=data)
-		if serializer.is_valid():
-			serializer.save()
-			catch = Catch.objects.get(id=pk)
-			catch.likes += 1
-			catch.save()
-			return Response(status=status.HTTP_204_NO_CONTENT)
-		
-			
-	@detail_route(methods=['post'])
-	def unlike(self,request,pk):
-		catch = Catch.objects.get(id=pk)
-		if (catch.liked_users.filter(user=self.request.user).exists()):
-			obj = Like.objects.get(user=self.request.user,catch=catch)
-			obj.delete()
-			catch.likes -= 1
-			catch.save()
-			return Response(status=status.HTTP_204_NO_CONTENT)
-		return Response(status=status.HTTP_400_BAD_REQUEST)
-		
-
-class FeedViewSet(viewsets.ModelViewSet):
-	serializer_class = CatchSerializer
-	parser_classes = (MultiPartParser, FormParser,)
-	#permission_class = (permissions.IsAuthenticatedOrReadOnly)	
-	
-	def get_queryset(self):
-		feeds = feed_manager.get_news_feeds(self.request.user.id)
-		activities = feeds.get('flat').get()['results']
-		id_list = [a['object'].split(':')[1] for a in activities]
-		id_list = [int(id) for id in id_list]
-		queryset = Catch.objects.filter(id__in=id_list)
-		return queryset
-
-
-	def perform_create(self, serializer):
-		serializer.save(owner=self.request.user, fishPhoto=self.request.data.get('fishPhoto'))
 		
 		
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
@@ -113,10 +47,3 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
 			return Response(status=status.HTTP_204_NO_CONTENT)
 		else:
 			return Response(status=status.HTTP_400_BAD_REQUEST)
-
-	
-
-class CurrentUserView(APIView):
-    def get(self, request):
-        serializer = UserModelSerializer(request.user)
-        return Response(serializer.data)

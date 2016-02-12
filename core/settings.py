@@ -50,7 +50,8 @@ INSTALLED_APPS = (
     'corsheaders',
 	'stream_django',
     'api',
-	'comments'
+	'comments',
+	'catches'
 )
 
 ##use toolbar if debug

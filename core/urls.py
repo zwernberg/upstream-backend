@@ -1,6 +1,7 @@
 """upstream URL Configuration"""
 
-from api import views
+from api import views as apiViews
+from catches import views as catchViews
 from comments.views import CommentViewSet
 from django.conf.urls import patterns, url, include
 from rest_framework.routers import DefaultRouter
@@ -14,9 +15,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 router = DefaultRouter(trailing_slash=False)
-router.register(r'catches', views.CatchViewSet)
-router.register(r'feed',views.FeedViewSet,base_name='feed')
-router.register(r'users', views.UserViewSet)
+router.register(r'catches', catchViews.CatchViewSet)
+router.register(r'feed', catchViews.FeedViewSet,base_name='feed')
+router.register(r'users', apiViews.UserViewSet)
 router.register(r'comments', CommentViewSet)
 
 urlpatterns = patterns('',
@@ -25,7 +26,6 @@ urlpatterns = patterns('',
 	namespace='rest_framework')),
 	url(r'^api/rest-auth/', include('rest_auth.urls')),
     (r'^api/rest-auth/registration/', include('rest_auth.registration.urls')),
-    url(r'^api/currentuser', views.CurrentUserView.as_view()),
 	url(r'^api/admin/', include(admin.site.urls)),
 
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
