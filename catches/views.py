@@ -12,10 +12,13 @@ from stream_django.feed_manager import feed_manager
 # Create your views here.
 class CatchViewSet(viewsets.ModelViewSet):
 
-	queryset = Catch.objects.order_by('-created_at')
+	queryset = Catch.objects.order_by('-created_at').select_related('owner',).prefetch_related('comments')
 	serializer_class = CatchSerializer
 	parser_classes = (MultiPartParser, FormParser,JSONParser,)
 	permission_classes = (IsOwnerOrReadOnly,)	
+	
+	def get_queryset(self):
+		return Catch.objects.select_related('owner',).prefetch_related('comments')
 	
 	def perform_create(self, serializer):
 		serializer.save(owner=self.request.user, fishPhoto=self.request.data.get('fishPhoto'))
