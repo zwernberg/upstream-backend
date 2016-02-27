@@ -14,7 +14,7 @@ class CatchSerializer(serializers.HyperlinkedModelSerializer):
 	comments = CommentSerializer(many=True, read_only=True)
 	class Meta:
 		model = Catch
-		fields = ('url', 'id', 'title', 'location', 'created_at', 'modified_at','liked', 'likes', 'comments','owner', 'fishPhoto')
+		fields = ('url', 'id', 'title', 'location', 'created_at', 'modified_at','liked', 'likes','owner', 'length', 'fishPhoto', 'comments')
 		read_only_fields = ('comments','owner',)
 		
 	def is_liked(self, obj):
