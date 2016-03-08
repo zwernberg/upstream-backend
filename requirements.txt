@@ -5,9 +5,12 @@ django-allauth==0.24.1
 django-cors-headers==1.1.0
 django-environ==0.4.0
 django-rest-auth==0.6.0
-djangorestframework==3.3.0
+django-taggit==0.18.0
+django-taggit-serializer==0.1.5
+djangorestframework==3.3.2
 environ==1.0
 httpsig==1.1.2
+Markdown==2.6.5
 oauthlib==1.0.3
 Pillow==3.0.0
 psycopg2==2.6.1

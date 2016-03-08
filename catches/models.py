@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from stream_django import activity
 from stream_django.feed_manager import feed_manager
+from taggit.managers import TaggableManager
+
 
 # Create your models here.
 class Catch(models.Model, activity.Activity):
@@ -13,6 +15,8 @@ class Catch(models.Model, activity.Activity):
 	created_at = models.DateTimeField(auto_now_add=True)
 	modified_at = models.DateTimeField(auto_now=True)
 	likes = models.IntegerField(default=0)
+	tags = TaggableManager(blank=True)
+
 
 
 	def __unicode_(self):

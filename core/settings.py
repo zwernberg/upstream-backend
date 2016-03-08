@@ -51,7 +51,9 @@ INSTALLED_APPS = (
 	'stream_django',
     'api',
 	'comments',
-	'catches'
+	'catches',
+	'taggit',
+	'taggit_serializer'
 )
 
 ##use toolbar if debug

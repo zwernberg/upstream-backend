@@ -9,18 +9,18 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('api', '0006_auto_20160203_0139'),
+        ('catches', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
             name='Comment',
             fields=[
-                ('id', models.AutoField(serialize=False, auto_created=True, verbose_name='ID', primary_key=True)),
+                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('text', models.TextField(max_length=3000)),
-                ('target', models.ForeignKey(to='api.Catch', related_name='comments')),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name='commenter')),
+                ('owner', models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name='commenter')),
+                ('target', models.ForeignKey(to='catches.Catch', related_name='comments')),
             ],
         ),
     ]

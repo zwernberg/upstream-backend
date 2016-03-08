@@ -13,14 +13,16 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Catch',
+            name='Follow',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
-                ('title', models.CharField(max_length=75)),
-                ('fishPhoto', models.ImageField(upload_to='fish_folder/')),
-                ('created_date', models.DateTimeField(auto_now_add=True)),
-                ('modified_date', models.DateTimeField(auto_now=True)),
-                ('owner', models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name='catches')),
+                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('target', models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name='followers')),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name='friends')),
             ],
+        ),
+        migrations.AlterUniqueTogether(
+            name='follow',
+            unique_together=set([('user', 'target')]),
         ),
     ]
