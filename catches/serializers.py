@@ -13,7 +13,7 @@ class CatchSerializer(TaggitSerializer, serializers.HyperlinkedModelSerializer):
 	owner = OwnerSerializer(read_only=True)
 	liked = serializers.SerializerMethodField('is_liked')
 	comments = CommentSerializer(many=True, read_only=True)
-	tags = TagListSerializerField()
+	tags = TagListSerializerField(required=False)
 	
 	class Meta:
 		model = Catch
