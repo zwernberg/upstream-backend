@@ -49,11 +49,13 @@ INSTALLED_APPS = (
     'rest_auth.registration',
     'corsheaders',
 	'stream_django',
+	'haystack',
     'api',
 	'comments',
 	'catches',
 	'taggit',
-	'taggit_serializer'
+	'taggit_serializer',
+	'users'
 )
 
 ##use toolbar if debug
@@ -134,6 +136,16 @@ DATABASES = {
     'default': env.db("DATABASE_URL"),
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
+
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': 'http://192.241.170.249:9200/',
+        'INDEX_NAME': 'haystack',
+    },
+}
+
 
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 ACCOUNT_EMAIL_VERIFICATION = "none"

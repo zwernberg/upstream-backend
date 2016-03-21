@@ -3,6 +3,11 @@ from catches.models import Catch, Like
 from comments.serializers import CommentSerializer
 from django.contrib.auth.models import User
 from taggit_serializer.serializers import (TagListSerializerField, TaggitSerializer)
+import pdb
+
+#Haystack
+from drf_haystack.serializers import HaystackSerializer
+from catches.search_indexes import CatchIndex
 
 
 class OwnerSerializer(serializers.RelatedField):
@@ -29,3 +34,15 @@ class LikeSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Like
 		fields = ('user','catch')
+		
+class CatchSearchSerializer(HaystackSerializer):
+	
+	obj_id = serializers.SerializerMethodField('get_obj')	
+
+	class Meta:
+		index_classes = [CatchIndex]
+		fields = ('text', 'owner', 'title', 'obj_id')
+		
+	def get_obj(self, obj):
+		#pdb.set_trace()
+		return (obj.pk)

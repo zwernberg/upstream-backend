@@ -5,10 +5,18 @@ from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 from rest_framework.parsers import FormParser, MultiPartParser, JSONParser
 from catches.models import Catch,Like
-from catches.serializers import CatchSerializer, LikeSerializer
+from catches.serializers import CatchSerializer, LikeSerializer, CatchSearchSerializer
 from comments.serializers import CommentSerializer
 from api.permissions import IsOwnerOrReadOnly
 from stream_django.feed_manager import feed_manager
+from drf_haystack.serializers import HaystackSerializer
+from drf_haystack.viewsets import HaystackViewSet
+from catches.search_indexes import CatchIndex
+from haystack.query import SearchQuerySet
+from django.core import serializers
+from rest_framework.mixins import ListModelMixin
+from drf_haystack.generics import HaystackGenericAPIView
+
 # Create your views here.
 class CatchViewSet(viewsets.ModelViewSet):
 
@@ -74,3 +82,17 @@ class FeedViewSet(viewsets.ModelViewSet):
 
 	def perform_create(self, serializer):
 		serializer.save(owner=self.request.user, fishPhoto=self.request.data.get('fishPhoto'))
+		
+		
+		
+class CatchSearchView(HaystackViewSet):
+	index_models = [Catch]
+	serializer_class = CatchSearchSerializer
+	
+
+class SearchView(ListModelMixin, HaystackGenericAPIView):
+
+	serializer_class = CatchSearchSerializer
+
+	def get(self, request, *args, **kwargs):
+		return self.list(request, *args, **kwargs)

@@ -4,7 +4,6 @@ from stream_django import activity
 from stream_django.feed_manager import feed_manager
 from taggit.managers import TaggableManager
 
-
 # Create your models here.
 class Catch(models.Model, activity.Activity):
 	title = models.CharField(max_length=75)
