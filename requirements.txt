@@ -4,10 +4,13 @@ Django==1.8.5
 django-allauth==0.24.1
 django-cors-headers==1.1.0
 django-environ==0.4.0
+django-haystack==2.4.1
 django-rest-auth==0.6.0
 django-taggit==0.18.0
 django-taggit-serializer==0.1.5
 djangorestframework==3.3.2
+drf-haystack==1.5.6
+elasticsearch==1.9.0
 environ==1.0
 httpsig==1.1.2
 Markdown==2.6.5
