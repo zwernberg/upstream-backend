@@ -5,7 +5,8 @@ from django.contrib.auth.models import User
 class UserIndex(indexes.SearchIndex, indexes.Indexable):
 	text = indexes.EdgeNgramField(document=True, use_template=False)
 	username = indexes.CharField(model_attr='username')
-	
+	autocomplete = indexes.EdgeNgramField()
+
 	def get_model(self):
 		return User
 		

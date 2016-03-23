@@ -12,9 +12,14 @@ class UserSearchSerializer(HaystackSerializer):
 	
 	obj_id = serializers.SerializerMethodField('get_obj')	
 
-	class Meta:
+	class Meta: 
 		index_classes = [UserIndex]
-		fields = ('username', 'obj_id')
+		fields = ('username', 'obj_id', 'autocomplete')
+		ignore_fields = ('autocomplete',)
+		field_aliases = {
+		    "q": "autocomplete"
+		}
+
 		
 	def get_obj(self, obj):
 		#pdb.set_trace()

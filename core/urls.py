@@ -19,7 +19,7 @@ router.register(r'catches', catchViews.CatchViewSet)
 router.register(r'feed', catchViews.FeedViewSet,base_name='feed')
 router.register(r'users', apiViews.UserViewSet)
 router.register(r'comments', CommentViewSet)
-router.register(r'search', catchViews.CatchSearchView, base_name='catch-search')
+router.register(r'search', userViews.UserSearchView, base_name='user-search')
 
 urlpatterns = patterns('',
     url(r'^api/', include(router.urls)),
@@ -27,7 +27,6 @@ urlpatterns = patterns('',
 	namespace='rest_framework')),
 	url(r'^api/rest-auth/', include('rest_auth.urls')),
 	url(r'^api/catchsearch/', catchViews.SearchView.as_view()),
-	url(r'^api/usersearch/', userViews.UserSearchView.as_view()),
     (r'^api/rest-auth/registration/', include('rest_auth.registration.urls')),
 	url(r'^api/admin/', include(admin.site.urls)),
 
