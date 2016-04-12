@@ -14,6 +14,8 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 
+from allauth.account import views as allauthViews
+
 router = DefaultRouter(trailing_slash=False)
 router.register(r'catches', catchViews.CatchViewSet)
 router.register(r'feed', catchViews.FeedViewSet,base_name='feed')
@@ -27,6 +29,7 @@ urlpatterns = patterns('',
 	namespace='rest_framework')),
 	url(r'^api/rest-auth/', include('rest_auth.urls')),
 	url(r'^api/catchsearch/', catchViews.SearchView.as_view()),
+	#url(r'^api/rest-auth/registration/account-confirm-email/(?P<key>\w+)/$', allauthViews.confirm_email,name="account_confirm_email"),
     (r'^api/rest-auth/registration/', include('rest_auth.registration.urls')),
 	url(r'^api/admin/', include(admin.site.urls)),
 

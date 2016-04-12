@@ -19,9 +19,9 @@ class UserSerializer(serializers.ModelSerializer):
 	following = serializers.SerializerMethodField('num_following')
 	class Meta:
 		model = User
-		depth = 2
-		fields = ('url', 'id' ,'username', 'is_following', 'followers', 'following', 'catches')
-		read_only_fields = ('followers', 'following', 'is_following')
+		depth = 1
+		fields = ('url', 'id' ,'username', 'userprofile', 'is_following', 'followers', 'following', 'catches')
+		read_only_fields = ('userprofile', 'followers', 'following', 'is_following')
 		
 	def num_followers(self,obj):
 		return (obj.followers.count())

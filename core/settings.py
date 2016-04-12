@@ -122,8 +122,10 @@ REST_FRAMEWORK = {
     ),
 	'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
 	'PAGE_SIZE': 10
+}
 
-
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'users.serializers.UserSerializer'
 }
 
 SITE_ID=1
@@ -181,3 +183,4 @@ MEDIA_URL = '/media/'
 
 STREAM_API_KEY = env("STREAM_KEY")
 STREAM_API_SECRET = env("STREAM_SECRET")
+
