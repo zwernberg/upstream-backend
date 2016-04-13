@@ -11,7 +11,7 @@ from users.search_indexes import UserIndex
 
 
 class UserSerializer(UserDetailsSerializer):
-	bio = serializers.CharField(source="userprofile.bio")
+	bio = serializers.CharField(source="userprofile.bio", allow_blank=True)
 	
 	class Meta(UserDetailsSerializer.Meta):
 		fields = UserDetailsSerializer.Meta.fields + ('bio',)
@@ -23,7 +23,7 @@ class UserSerializer(UserDetailsSerializer):
 		instance = super(UserSerializer, self).update(instance, validated_data)
 		
 		profile = instance.userprofile
-		if profile_data and bio:
+		if (profile_data and bio):
 			profile.bio = bio
 			profile.save()
 		return instance
