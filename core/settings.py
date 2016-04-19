@@ -155,8 +155,8 @@ else:
 MAILGUN_ACCESS_KEY = env('DJANGO_MAILGUN_API_KEY')
 MAILGUN_SERVER_NAME = env('DJANGO_MAILGUN_SERVER_NAME')
 #Temporary disable this until verify email link is working
-#ACCOUNT_EMAIL_REQUIRED = True
-#ACCOUNT_EMAIL_VERIFICATION = 'mandatory' 
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'none' 
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
