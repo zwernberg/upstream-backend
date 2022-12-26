@@ -31,4 +31,4 @@ sqlparse==0.1.18
 stream-django==1.2.6
 stream-python==2.3.4
 urllib3==1.14
-wheel==0.24.0
+wheel==0.38.1
